@@ -1,4 +1,4 @@
-name: centos Runtime Scan
+name: centos10 Runtime Scan
 
 permissions:
   contents: read
@@ -43,7 +43,7 @@ jobs:
 
       - name: Download image
         run: |
-          curl -L --retry 5 -o centos.img \
+          curl -L --retry 5 -o centos10.img \
             https://cloud.centos.org/centos/10-stream/x86_64/images/CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2
 
       - name: Generate SSH key
@@ -67,14 +67,14 @@ jobs:
 
           cloud-localds seed.iso user-data
 
-      - name: Start centos VM
+      - name: Start centos10 VM
         run: |
           qemu-system-x86_64 \
             -m 2048 \
             -smp 2 \
             -machine type=q35,accel=tcg \
             -cpu max \
-            -drive file=centos.img,format=qcow2,if=virtio \
+            -drive file=centos10.img,format=qcow2,if=virtio \
             -drive file=seed.iso,format=raw,if=virtio \
             -boot c \
             -netdev user,id=net0,hostfwd=tcp::2222-:22 \
